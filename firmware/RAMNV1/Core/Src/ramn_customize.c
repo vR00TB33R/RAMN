@@ -21,6 +21,7 @@
 #include "ramn_dtc.h"
 #include "ramn_j1939.h"
 #include "ramn_traffic.h"
+#include "ramn_coin.h"
 
 #ifdef ENABLE_CDC
 #include "ramn_cdc.h"
@@ -39,6 +40,7 @@ static volatile uint32_t tim6val = 0;
 void 	RAMN_CUSTOM_Init(uint32_t tick)
 {
 	loopCounter = 0;
+	RAMN_COIN_Init();
 }
 
 // Called when a CAN message is received (Hardware filters should be configured separately in ramn_canfd.c; with recvStdCANIDList and recvExtCANIDList)
@@ -56,6 +58,7 @@ void	RAMN_CUSTOM_ProcessRxCANMessage(const FDCAN_RxHeaderTypeDef* pHeader, const
 	// pHeader->FDFormat: FDCAN_CLASSIC_CAN or FDCAN_FD_CAN
 	// pHeader->RxTimestamp: 16-bit value for RX timestamp, MAY NOT BE CONFIGURED CORRECTLY
 	// See FilterIndex and IsFilterMatchingFrame for additional fields.
+	if (RAMN_COIN_ProcessRxCANMessage(pHeader, data)) return;
 
 	// J1939 transport is reactive (Address-Claim / ECU-ID / DM1 requests, TP aborts); run it only when
 	// the active traffic profile uses extended (J1939) IDs, so it stays inert in default mode and can

@@ -157,6 +157,7 @@
 //#define ENABLE_KWP
 #define ENABLE_XCP
 #define RTR_DEMO_ID 0x701
+#define ENABLE_RAMN_COIN
 #endif
 
 // CONFIGURATION OF ECU C ------------------------------------------------------
@@ -171,6 +172,7 @@
 //#define ENABLE_KWP
 #define ENABLE_XCP
 #define RTR_DEMO_ID 0x702
+#define ENABLE_RAMN_COIN
 #endif
 
 
@@ -190,6 +192,7 @@
 //#define ENABLE_KWP
 #define ENABLE_XCP
 #define RTR_DEMO_ID 0x703
+#define ENABLE_RAMN_COIN
 
 // How long to light up ECU D's LEDs at startup. Set to 0 to skip test.
 #define LED_TEST_DURATION_MS 3000U

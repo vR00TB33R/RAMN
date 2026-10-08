@@ -15,6 +15,7 @@
  */
 #include "ramn_canfd.h"
 #include "ramn_traffic.h" // g_trafficProfile: selects which RX filters are active (default vs J1939)
+#include "ramn_coin.h"
 
 // FDCAN peripheral parameters
 #define TSEG1_MAX 16
@@ -170,11 +171,15 @@ static const uint16_t recvStdCANIDList[] =
 static const uint32_t recvExtCANIDList[] =
 {
 		CTF_EXTENDED_ID,
+#ifdef ENABLE_RAMN_COIN
+		RAMN_COIN_CAN_ID_CMD,
+#endif
 		0 // "accept all extended" -- enabled only in J1939 mode (runtime-gated)
 };
 
 static_assert(sizeof(recvStdCANIDList) <= 28U, "Too many hardware filters, update the code to use other types of filters (such as dual or range)");
-static_assert(sizeof(recvExtCANIDList) <= 8U,  "Too many hardware filters, update the code to use other types of filters (such as dual or range)");
+static_assert(sizeof(recvExtCANIDList) / sizeof(recvExtCANIDList[0]) <= 8U,
+		"Too many hardware filters, update the code to use other types of filters (such as dual or range)");
 
 #endif
 
